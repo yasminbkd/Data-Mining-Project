@@ -1,0 +1,10 @@
+;0;1;2;3;4
+0;[KNeighborsClassifier()];[DecisionTreeClassifier()];[LogisticRegression()];[SVC()];[GaussianNB()]
+1;0.989;0.989;0.933;0.911;0.483
+2;accuracy_score;accuracy_score;accuracy_score;accuracy_score;accuracy_score
+3;0.989;0.989;0.933;0.911;0.483
+4;precision_score;precision_score;precision_score;precision_score;precision_score
+5;0.989;0.989;0.933;0.911;0.483
+6;recall_score;recall_score;recall_score;recall_score;recall_score
+7;0.989;0.989;0.933;0.911;0.483
+8;f1_score;f1_score;f1_score;f1_score;f1_score
