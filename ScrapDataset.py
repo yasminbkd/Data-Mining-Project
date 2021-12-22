@@ -14,6 +14,10 @@ from selenium.common.exceptions import NoSuchElementException, ElementClickInter
 from selenium import webdriver
 import time
 import pandas as pd
+#from selenium :Selenium Python provide a convenient API to access Selenium Web Driver like Chrome, etc. 
+# Exceptions :  are the errors that occur when one of method fails or an unexpected event occurs.
+# webdriver :  is an automation testing tool.automates test scripts written in Selenium.
+#import time is a module that provides useful functions to handle time-related tasks.(.sleep())
 
 
 
@@ -31,19 +35,24 @@ def get_jobs(keyword, num_jobs, verbose, path, slp_time):
     driver = webdriver.Chrome(executable_path=path, options=options)
     driver.set_window_size(1120, 1000)
     
+    #creat a variable url to put the site of glass door 
     url= "https://www.glasdoor.com/Job/jobs.htm?suggestCount=0&suggestChosen=false&clickSource=searchBtn&typedKeyword="+keyword+"&sc.keyword"+keyword+"&sc.keyword=data+Scientist&locT=&locId=&jobType=" 
-    # add the site of glass door to chrome 
+    # .get() open the site of glass door to chrome
     driver.get(url)
+    
+    #initialise an empty list
     jobs = []
 
-    while len(jobs) < num_jobs:  #If true, should be still looking for new jobs.
+    while len(jobs) < num_jobs:  #calculate the number of jobs and If true, should be still looking for new jobs.
 
         #wait until the webpage is loaded.
-        #We can use python sleep function to halt the execution of the program for given time in seconds
+        #We can use python sleep function to stop the execution of the program for given time in seconds
+        #sometime we need to tell the program to sleep for a moment to retry something that failed that's why we use argument as (slp-time) 
+        # and then we use (.1) then recheck things a second or two later 
         time.sleep(slp_time)
         time.sleep(.1)
         
-        #Going through each job in this page by their class_name
+        #Going through each job in this page by their class_name ("react-job-listing")that we found in the site code by inspecting it 
         #we put in job_buttons the jobs we find in this page
         job_buttons = driver.find_elements_by_class_name("react-job-listing")  
         for job_button in job_buttons:  
@@ -53,15 +62,17 @@ def get_jobs(keyword, num_jobs, verbose, path, slp_time):
             if len(jobs) >= num_jobs:
                 break
   
-            job_button.click()  #You might stop searching (because we completed jobs number needed)
+            job_button.click()  #You might stop searching (because we completed jobs number needed) using .click()
      
             time.sleep(1)
-    
-            collected_successfully = False #initialisation
+            
+            #initialisation
             #if we couldn't complete searching we need to remove the login window that pop out 
+            collected_successfully = False 
  
             try:
-                driver.find_element_by_css_selector('[alt="Close"]').click()  #clicking to the X.  
+                driver.find_element_by_css_selector('[alt="Close"]').click()  
+                #we need to find the x elements by .find_element_by_css_selector and click on it by .click() to close it.  
             except NoSuchElementException:
                 pass
             # if we completed searching we will get the information we need from jobs by find_element_by-Xpath and put in in variable
@@ -80,12 +91,12 @@ def get_jobs(keyword, num_jobs, verbose, path, slp_time):
             try:
                 salary_estimate = driver.find_element_by_xpath('.//span[@class="css-1hbqxax e1wijj240"]').text
             except NoSuchElementException:
-                salary_estimate = -1 #not found value
+                salary_estimate = -1 #initializing a not found value
 
             try:
                 rating = driver.find_element_by_xpath('.//span[@class="css-1m5m32b e1tk4kwz4"]').text
             except NoSuchElementException:
-                rating = -1 #not found value
+                rating = -1 #initializing a not found value
 
             #Printing for debugging
             if verbose:
