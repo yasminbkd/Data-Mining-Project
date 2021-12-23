@@ -55,4 +55,4 @@ after this step we choose to predicte our result with tree and we call all the f
 for this project to work you need to change your path in the project in the main .
 
 
-machine learning project made by me and iheb masmoudi  
+machine learning project made by yasmin ben khedim and iheb masmoudi  
